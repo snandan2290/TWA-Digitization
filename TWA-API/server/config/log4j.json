@@ -1,0 +1,6 @@
+{
+    "logger": {
+        "appenders": { "titan": { "type": "file", "filename": "C:\\Titan\\Logs\\log.log" } },
+        "categories": { "default": { "appenders": ["titan"], "level": "debug" } }
+    }
+}

@@ -1,0 +1,14 @@
+
+{
+  "componentFilePath": "C:\\Titan\\files\\component",
+  "workOrdersUpload": "C:\\Titan\\files\\workOrders",
+  "instructionsPath": "C:\\Titan\\files\\Instructions",
+  "variantFilePath": "C:\\Titan\\files\\variant",
+  "feedbackFilePath": "C:\\Titan\\files\\feedback",
+  "instructionsBaseUrl": "/api/files/instruction",
+  "componentBaseUrl": "/api/files/component",
+  "variantBaseUrl": "/api/files/variant",
+  "feedbackBaseUrl": "/api/files/feedback",
+  "pythonScriptPath": "C:\\Titan\\python\\excelToPdfUtil.py",
+  "pythonCmd": "python"
+}
