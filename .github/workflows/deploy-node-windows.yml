@@ -23,7 +23,8 @@ jobs:
         run: cd TWA-API && npm install
 
       - name: Build
-        run: cd TWA-API && npm run build:prod
+        # run: cd TWA-API && npm run build:prod
+        run: cd TWA-API; npm run build:prod
 
       - name: Zip Build Folder
         # run: cd TWA-API && zip -r app.zip dist
