@@ -1,0 +1,53 @@
+name: Deploy Node App to Windows Server
+
+on:
+  push:
+    branches:
+      - feature/github-actions
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Build
+        run: npm run build:prod
+
+      - name: Zip Build Folder
+        run: |
+          zip -r app.zip . -x ".git/*" "node_modules/*"
+
+      - name: Copy Files to Windows Server
+        uses: mholt/ssh-scp-action@v1
+        with:
+          host: ${{ secrets.WINDOWS_HOST }}
+          username: ${{ secrets.WINDOWS_USERNAME }}
+          password: ${{ secrets.WINDOWS_PASSWORD }}
+          port: 22
+          source: "app.zip"
+          target: "${{ secrets.WINDOWS_DEPLOY_PATH }}\\app.zip"
+
+      - name: Deploy and restart NSSM service
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.WINDOWS_HOST }}
+          username: ${{ secrets.WINDOWS_USERNAME }}
+          password: ${{ secrets.WINDOWS_PASSWORD }}
+          script: |
+            cd ${{ secrets.WINDOWS_DEPLOY_PATH }}
+            powershell -Command "nssm stop '${{ secrets.NSSM_SERVICE_NAME }}'"
+            powershell -Command "Expand-Archive -Force -Path '.\\app.zip' -DestinationPath ."
+            powershell -Command "nssm start '${{ secrets.NSSM_SERVICE_NAME }}'"
+
