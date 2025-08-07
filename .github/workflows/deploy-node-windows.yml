@@ -8,7 +8,7 @@ on:
 
 jobs:
   build-and-deploy:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Windows]
 
     steps:
       - name: Checkout Code
@@ -37,7 +37,7 @@ jobs:
           password: ${{ secrets.WINDOWS_PASSWORD }}
           port: 22
           source: "TWA-API/app.zip"
-          ttarget: "${{ secrets.WINDOWS_DEPLOY_PATH }}/app.zip"
+          target: "${{ secrets.WINDOWS_DEPLOY_PATH }}/app.zip"
           debug: true
           strip_components: 0
 
