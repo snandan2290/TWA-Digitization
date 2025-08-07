@@ -31,7 +31,7 @@ jobs:
           zip -r ../app.zip .
 
       - name: Copy Files to Windows Server
-        uses: mholt/ssh-scp-action@v1
+        uses: appleboy/scp-action@v0.1.4
         with:
           host: ${{ secrets.WINDOWS_HOST }}
           username: ${{ secrets.WINDOWS_USERNAME }}
