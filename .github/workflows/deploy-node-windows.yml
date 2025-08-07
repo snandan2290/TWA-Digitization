@@ -26,9 +26,8 @@ jobs:
         run: cd TWA-API && npm run build:prod
 
       - name: Zip Build Folder
-        run: zip -r TWA-API/app.zip TWA-API/dist
-
-
+        # run: cd TWA-API && zip -r app.zip dist
+        run: cd TWA-API/dist && zip -r ../app.zip .
 
       - name: Copy Files to Windows Server
         uses: appleboy/scp-action@v0.1.4
@@ -38,7 +37,9 @@ jobs:
           password: ${{ secrets.WINDOWS_PASSWORD }}
           port: 22
           source: "TWA-API/app.zip"
-          target: "${{ secrets.WINDOWS_DEPLOY_PATH }}\\app.zip"
+          ttarget: "${{ secrets.WINDOWS_DEPLOY_PATH }}/app.zip"
+          debug: true
+          strip_components: 0
 
       - name: Deploy and restart NSSM service
         uses: appleboy/ssh-action@master
