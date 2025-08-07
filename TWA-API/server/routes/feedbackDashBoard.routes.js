@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const feedbackDashBoardController = require("../controllers/feedbackDashBoard.controller");
-const {validateFeedbackSeveritySummaryParams, validateGenricReqParams, validateGenricOptParams} = require("../middlewares/feedbackDashboardValidator");
+const {validateFeedbackSeveritySummaryParams, validateGenricReqParams, validateGenricOptParams} = require("../middlewares/feedbackDashboardValidator.middleware");
 
 router.get(
   "/getFeedbackSummary", validateGenricReqParams, validateGenricOptParams,
