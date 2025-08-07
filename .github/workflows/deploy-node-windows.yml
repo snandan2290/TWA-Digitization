@@ -25,10 +25,10 @@ jobs:
       - name: Build
         run: cd TWA-API && npm run build:prod
 
-      - name: Zip `dist/` Folder
+      - name: Zip Build Folder
         run: |
-          cd TWA-API/dist
-          zip -r ../app.zip .
+          powershell -Command "Compress-Archive -Path TWA-API\dist\* -DestinationPath TWA-API\app.zip -Force"
+
 
       - name: Copy Files to Windows Server
         uses: appleboy/scp-action@v0.1.4
