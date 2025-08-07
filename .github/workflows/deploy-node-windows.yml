@@ -26,8 +26,8 @@ jobs:
         run: cd TWA-API && npm run build:prod
 
       - name: Zip Build Folder
-        run: |
-          powershell -Command "Compress-Archive -Path TWA-API\dist\* -DestinationPath TWA-API\app.zip -Force"
+        run: zip -r TWA-API/app.zip TWA-API/dist
+
 
 
       - name: Copy Files to Windows Server
