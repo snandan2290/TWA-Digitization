@@ -29,7 +29,9 @@ jobs:
 
       - name: Zip Build Folder
         # run: cd TWA-API && zip -r app.zip dist
-        run: cd TWA-API/dist; zip -r ../app.zip .
+        # run: cd TWA-API/dist; zip -r ../app.zip .
+        run: Compress-Archive -Path "TWA-API/dist/*" -DestinationPath "TWA-API/app.zip"
+
 
       - name: Copy Files to Windows Server
         uses: appleboy/scp-action@v0.1.4
