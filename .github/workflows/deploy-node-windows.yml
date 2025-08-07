@@ -20,7 +20,8 @@ jobs:
       #     node-version: 22
 
       - name: Install Dependencies
-        run: cd TWA-API && npm install
+        # run: cd TWA-API && npm install
+        run: cd TWA-API; npm install
 
       - name: Build
         # run: cd TWA-API && npm run build:prod
