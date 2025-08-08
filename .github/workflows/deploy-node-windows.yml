@@ -64,7 +64,25 @@ jobs:
         shell: powershell
         run: |
           $deployPath = "${{ secrets.WINDOWS_DEPLOY_PATH }}"
+          $serviceName = "${{ secrets.NSSM_SERVICE_NAME }}"
+
+          # Stop the service if running
+          try {
+            nssm stop $serviceName
+          } catch {
+            Write-Host "Service was not running."
+          }
+
           Copy-Item -Path "TWA-API/app.zip" -Destination "$deployPath\app.zip" -Force
-          nssm stop "${{ secrets.NSSM_SERVICE_NAME }}"
+          # nssm stop "${{ secrets.NSSM_SERVICE_NAME }}"
           Expand-Archive -Force -Path "$deployPath\app.zip" -DestinationPath $deployPath
-          nssm start "${{ secrets.NSSM_SERVICE_NAME }}"            
+
+          # Ensure correct working directory in NSSM
+          nssm set $serviceName AppDirectory $deployPath
+          
+          # Start the service
+          nssm start $serviceName
+
+          # Check status
+          Start-Sleep -Seconds 3
+          nssm status $serviceName          
