@@ -65,6 +65,9 @@ jobs:
         run: |
           $deployPath = "${{ secrets.WINDOWS_DEPLOY_PATH }}"
           $serviceName = "${{ secrets.NSSM_SERVICE_NAME }}"
+          $service = "twa-api"
+          $script = "bundle.js"
+          New-Item -ItemType Directory -Force -Path "$deployPath\logs" | Out-Null
 
           # Stop the service if running
           try {
@@ -77,12 +80,18 @@ jobs:
           # nssm stop "${{ secrets.NSSM_SERVICE_NAME }}"
           Expand-Archive -Force -Path "$deployPath\app.zip" -DestinationPath $deployPath
 
-          # Ensure correct working directory in NSSM
-          nssm set $serviceName AppDirectory $deployPath
-          
-          # Start the service
-          nssm start $serviceName
+          # Set paths in NSSM
+          nssm set $service Application $nodeExe
+          nssm set $service AppDirectory $deployPath
+          nssm set $service AppParameters $script
 
-          # Check status
-          Start-Sleep -Seconds 3
-          nssm status $serviceName          
+          nssm set $service AppStdout "$deployPath\logs\stdout.log"
+          nssm set $service AppStderr "$deployPath\logs\stderr.log"
+          nssm set $service AppRotateFiles 1
+          nssm set $service AppRotateOnline 1
+          nssm set $service AppRotateBytes 1048576          
+
+          # Restart
+          nssm stop $service 2>$null
+          nssm start $service
+          nssm status $service         
