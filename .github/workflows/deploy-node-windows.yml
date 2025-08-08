@@ -92,6 +92,6 @@ jobs:
           nssm set $service AppRotateBytes 1048576          
 
           # Restart
-          nssm stop $service 2>$null
+          # nssm stop $service 2>$null
           nssm start $service
           nssm status $service         
